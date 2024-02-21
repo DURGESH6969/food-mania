@@ -1,7 +1,7 @@
 import React from "react";
 import { useState,useEffect } from "react";
 import Card from "./Card";
-import { restaurantList } from "../utils/mockData";
+
 const Body = () => {
 
 
@@ -33,18 +33,18 @@ const Body = () => {
   }
 
   function resetRestaurantList() {
-    setFilterRestaurant(restaurantList);
+    setFilterRestaurant(listOfRestaurants);
   }
 
   const handleSearch = () => {
-    const filteredRestaurant = restaurantList.filter((res) =>
+    const filteredRestaurant = listOfRestaurants.filter((res) =>
       res.info.name.toLowerCase().includes(searchText.toLowerCase().trim())
     );
     setFilterRestaurant(filteredRestaurant);
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter") {
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
