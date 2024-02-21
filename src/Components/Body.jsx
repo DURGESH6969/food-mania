@@ -1,12 +1,29 @@
 import React from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Card from "./Card";
 import { restaurantList } from "../utils/mockData";
 const Body = () => {
-  
-  const [listOfRestaurants, setListOfRestraunt] = useState(restaurantList);
-  const [filterRestaurant, setFilterRestaurant] = useState(restaurantList);
+
+
+  const [listOfRestaurants, setListOfRestraunt] = useState([]);
+  const [filterRestaurant, setFilterRestaurant] = useState([]);
   const [searchText, setSearchText] = useState("");
+
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=22.57687&lng=	88.35047&page_type=DESKTOP_WEB_LISTING");
+    const json = await data.json();
+    console.log(json);
+
+    setListOfRestraunt(json?.data.cards[1].card.card.gridElements.infoWithStyle.restaurants);
+    setFilterRestaurant(json?.data.cards[1].card.card.gridElements.infoWithStyle.restaurants);
+  }
+
+
 
   function renderBestRestaurant() {
     const filteredList = listOfRestaurants.filter(
@@ -32,8 +49,6 @@ const Body = () => {
     }
   };
 
-  if (listOfRestaurants.length === 0) return <h1>Loading...</h1>;
-
   return (
     <div className="body">
       <div className="filter">
@@ -41,6 +56,7 @@ const Body = () => {
           <input
             type="text"
             className="search-box"
+            value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             onKeyDown={handleKeyDown}
           />
@@ -56,8 +72,8 @@ const Body = () => {
       <div className="restaurant-container">
         {/* Restaurant Card Component */}
 
-        {filterRestaurant.map((restaurant, index) => (
-          <Card key={index} resData={restaurant} />
+        {filterRestaurant.map((restaurant) => (
+          <Card key={restaurant.info.id} resData={restaurant} />
         ))}
       </div>
     </div>
