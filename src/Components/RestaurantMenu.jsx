@@ -2,28 +2,14 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { MENU_API } from "../utils/constants";
+import useRestaurantMenu from "../utils/useRestaurantMenu";
 
 const RestaurantMenu = () => {
-  const [resInfo, setResInfo] = useState(null);
   
   const { resId } = useParams();
 
-  useEffect(() => {
-    fetchMenu();
-  }, []);
-
-  const fetchMenu = async () => {
-    try {
-      const data = await fetch(MENU_API+resId+"&catalog_qa=undefined");
-
-      const json = await data.json();
-   
-      setResInfo(json);
-    
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  const resInfo = useRestaurantMenu(resId);
+  
 
   if (resInfo === null) return (`Loading...`);
 

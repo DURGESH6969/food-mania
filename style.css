@@ -82,7 +82,12 @@
 
 .filter> button{
   margin:10px;
-  padding:10px
+  padding:10px;
+  border-radius: 18px;
+}
+.filter>button:hover{
+  background-color: #7cc1e1f4;
+  cursor:pointer;
 }
 .search{
   height: 30px;
@@ -90,7 +95,14 @@
   display: flex;
   gap: 10;
 }
-
+.search-btn{
+  padding: 0 10px;
+  border-radius: 18px;
+}
+.search-btn:hover{
+  background-color: #7cc1e1f4;
+  cursor:pointer;
+}
 .error {
   text-align: center;
   padding: 20px;
@@ -105,3 +117,42 @@
   border-radius: 10px;
 }
 
+.shimmer-container {
+  margin-top: 120px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.shimmer-card {
+  margin: 20px;
+  width: 200px;
+  height: 400px;
+  background-color: #f0f0f0
+}
+
+.offline-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f8f9fa;
+  color: #343a40;
+}
+
+.illustration {
+  width: 300px;
+  height: 300px;
+  
+}
+
+.illustration>h1 {
+  margin-top: 20px;
+  font-size: 2rem;
+}
+
+.illustration>p {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  text-align: center;
+}

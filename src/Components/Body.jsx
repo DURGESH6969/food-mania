@@ -2,53 +2,30 @@ import React from "react";
 import { useState,useEffect } from "react";
 import Card from "./Card";
 import { Link } from "react-router-dom";
+import useBodyData from "../utils/useBodyData";
+import Shimmer from "./Shimmer";
+import useOnlineStatus from "../utils/useOnlineStatus";
+import OfflinePage from "./OfflinePage";
+
 
 const Body = () => {
 
+  const {
+    listOfRestaurants,
+    filterRestaurant,
+    searchText,
+    setSearchText,
+    handleSearch,
+    handleKeyDown,
+    renderBestRestaurant,
+    resetRestaurantList,
+  } = useBodyData();
 
-  const [listOfRestaurants, setListOfRestraunt] = useState([]);
-  const [filterRestaurant, setFilterRestaurant] = useState([]);
-  const [searchText, setSearchText] = useState("");
+  const onlineStatus = useOnlineStatus();
 
+  if(onlineStatus===false) return (<OfflinePage/>)
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=22.57687&lng=	88.35047&page_type=DESKTOP_WEB_LISTING");
-    const json = await data.json();
-    console.log(json);
-
-    setListOfRestraunt(json?.data.cards[1].card.card.gridElements.infoWithStyle.restaurants);
-    setFilterRestaurant(json?.data.cards[1].card.card.gridElements.infoWithStyle.restaurants);
-  }
-
-
-
-  function renderBestRestaurant() {
-    const filteredList = listOfRestaurants.filter(
-      (res) => res.info.avgRating > 4.4
-    );
-    setFilterRestaurant(filteredList);
-  }
-
-  function resetRestaurantList() {
-    setFilterRestaurant(listOfRestaurants);
-  }
-
-  const handleSearch = () => {
-    const filteredRestaurant = listOfRestaurants.filter((res) =>
-      res.info.name.toLowerCase().includes(searchText.toLowerCase().trim())
-    );
-    setFilterRestaurant(filteredRestaurant);
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  };
+  if (listOfRestaurants.length === 0) return (<Shimmer></Shimmer>);
 
   return (
     <div className="body">
@@ -61,7 +38,7 @@ const Body = () => {
             onChange={(e) => setSearchText(e.target.value)}
             onKeyDown={handleKeyDown}
           />
-          <button
+          <button className="search-btn"
             onClick={handleSearch}
           >
             Search
@@ -79,8 +56,6 @@ const Body = () => {
           to={"/restaurants/"+restaurant.info.id}>
             <Card resData={restaurant} />
           </Link>
-
-
         ))}
       </div>
     </div>

@@ -1,19 +1,28 @@
 import React from 'react'
 import logo from "../detailed-chef-logo-template/brand-logo.png"
 import { useState } from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import useOnlineStatus from '../utils/useOnlineStatus';
+import useBlurStatus from '../utils/useBlurStatus';
+
+
 const Header = () => {
 
   const[btn,setBtn] = useState("Login");
+  const onlineStatus = useOnlineStatus();
 
+  useBlurStatus();
+  
 
   return (
+
     <div className="header">
     <div className="logo-container">
       <img src={logo} alt="brand-logo" className="logo" />
-    </div>
+      </div>
     <div className="nav-items">
-      <ul>
+        <ul>
+        <li>Online Status {onlineStatus ? "🟢" : "🔴" }  </li>
         <li><Link to={"/"}>Home</Link></li>
         <li><Link to={"/contact"}> Contact Us</Link> </li>
         <li><Link to={"/about"}>About</Link></li>
