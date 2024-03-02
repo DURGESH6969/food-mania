@@ -17,7 +17,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 const AppLayout = () => {
   return (
     <ErrorBoundary fallback={<div>Something went wrong</div>}>
-    <div className="app">
+    <div className="app mx-2">
       <Header />
       <Outlet/>
     </div>

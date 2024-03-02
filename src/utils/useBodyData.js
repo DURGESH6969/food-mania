@@ -23,12 +23,17 @@ const useBodyData = () => {
       console.log(error);
     }
   };
+
   const handleSearch = () => {
     const filteredRestaurant = listOfRestaurants.filter((res) =>
+      res.info.cuisines.some((cuisine) =>
+        cuisine.toLowerCase().includes(searchText.toLowerCase().trim())
+      ) ||
       res.info.name.toLowerCase().includes(searchText.toLowerCase().trim())
     );
     setFilterRestaurant(filteredRestaurant);
   };
+  
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {

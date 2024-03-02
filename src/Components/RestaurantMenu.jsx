@@ -1,8 +1,7 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { MENU_API } from "../utils/constants";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestaurantMenuCategory from "./RestaurantMenuCategory";
 
 const RestaurantMenu = () => {
   
@@ -14,32 +13,35 @@ const RestaurantMenu = () => {
   if (resInfo === null) return (`Loading...`);
 
   const { name, locality, costForTwoMessage, cuisines } =
-    resInfo?.data?.cards[2]?.card?.card?.info || {};
-  
-  const { itemCards } = resInfo?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card ;
+    resInfo?.data?.cards[0]?.card?.card?.info || {};
 
- 
+  
+  const categories = resInfo?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+    (category) =>
+      category.card?.["card"]?.["@type"] ===
+      "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory" || category.card?.["card"]?.["@type"]==="type.googleapis.com/swiggy.presentation.food.v2.NestedItemCategory"
+  );
+
+  // console.log(categories);
 
   return (
-    <div>
-      <h1>{name}</h1>
-      <h2>{locality}</h2>
-      <p>
+    <div className="text-center">
+      <h1 className="text-2xl font-bold my-6">{name}</h1>
+      <h2 className="text-lg">{locality}</h2>
+      <p className="text-xl ">
         {cuisines && Array.isArray(cuisines)
           ? cuisines.join(", ")
           : "No cuisines available"}{" "}
         - {costForTwoMessage}
       </p>
-      <h2>Menu</h2>
-      <ul style={{ listStyle: 'none' }}>
-      {itemCards && itemCards.length > 0 ? (
-        itemCards.map((itemCard, index) => (
-          <li key={index}>{itemCard.card.info.name} - ₹{ itemCard.card.info.price/100 || itemCard.card.info.defaultPrice/100} </li>
+      <h2 className="text-xl font-semibold">Menu</h2>
+      {
+        categories.map((category,index) => (
+          <RestaurantMenuCategory
+            key={index}
+            props={category?.card?.card} />
         ))
-      ) : (
-        <li>No items available</li>
-      )}
-      </ul>
+      }
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useRouteError} from "react-router-dom";
-import errorImage from '../detailed-chef-logo-template/error-pic.jpg';
+import errorImage from '../assets/error-pic.jpg';
 
 const Error = () => {
   const err = useRouteError();
