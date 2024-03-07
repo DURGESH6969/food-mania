@@ -28,7 +28,8 @@ const ItemList = ({ items }) => {
               <div className="w-3/12 p-4 relative">
             <div className="">
               <button className="absolute bottom-0 p-2 mt-12 ml-10 rounded-lg bg-black text-white shadow-lg opacity-85  hover:opacity-65 active:opacity-90">
-                Add +
+                  Add ++
+                  
               </button>
             </div>
             <img  src={CDN_URL + item.card.info.imageId} className="w-full rounded-md" />
